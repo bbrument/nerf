@@ -68,6 +68,7 @@ def load_blender_data(basedir, half_res=False, testskip=1):
         all_poses.append(poses)
     
     i_split = [np.arange(counts[i], counts[i+1]) for i in range(3)]
+    print(i_split)
     
     imgs = np.concatenate(all_imgs, 0)
     poses = np.concatenate(all_poses, 0)
@@ -77,6 +78,7 @@ def load_blender_data(basedir, half_res=False, testskip=1):
     focal = .5 * W / np.tan(.5 * camera_angle_x)
     
     render_poses = tf.stack([pose_spherical(angle, -30.0, 4.0) for angle in np.linspace(-180,180,40+1)[:-1]],0)
+    print(render_poses.shape)
     
     if half_res:
         imgs = tf.image.resize_area(imgs, [400, 400]).numpy()

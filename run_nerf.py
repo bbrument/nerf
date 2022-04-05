@@ -12,6 +12,7 @@ from run_nerf_helpers import *
 from load_llff import load_llff_data
 from load_deepvoxels import load_dv_data
 from load_blender import load_blender_data
+from load_matfile import load_matfile_data
 
 
 tf.compat.v1.enable_eager_execution()
@@ -488,7 +489,7 @@ def config_parser():
     parser.add_argument("--chunk", type=int, default=1024*32,
                         help='number of rays processed in parallel, decrease if running out of memory')
     parser.add_argument("--netchunk", type=int, default=1024*64,
-                        help='number of pts sent through network in parallel, decrease if running out of memory')
+                        help='number of pts sent through network in parallel, decrease if running out  of memory')
     parser.add_argument("--no_batching", action='store_true',
                         help='only take random rays from 1 image at a time')
     parser.add_argument("--no_reload", action='store_true',
@@ -640,6 +641,24 @@ def train():
         hemi_R = np.mean(np.linalg.norm(poses[:, :3, -1], axis=-1))
         near = hemi_R-1.
         far = hemi_R+1.
+
+    elif args.dataset_type == 'custom':
+
+        images, poses, render_poses, hwf, i_split = load_matfile_data(basedir=args.datadir,
+                                                                      factor=args.factor)
+        print('Loaded custom dataset', images.shape,
+              render_poses.shape, hwf, args.datadir)
+
+        i_train, i_test, i_val = i_split
+
+        hemi_R = np.mean(np.linalg.norm(poses[:, :3, -1], axis=-1))
+        near = hemi_R-1.
+        far = hemi_R+1.
+
+        if args.white_bkgd:
+            images = images[..., :3]*images[..., -1:] + (1.-images[..., -1:])
+        else:
+            images = images[..., :3]
 
     else:
         print('Unknown dataset type', args.dataset_type, 'exiting')
