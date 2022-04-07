@@ -645,15 +645,15 @@ def train():
     elif args.dataset_type == 'custom':
 
         images, poses, render_poses, hwf, i_split = load_matfile_data(basedir=args.datadir,
-                                                                      factor=args.factor)
+                                                                      factor=None)
         print('Loaded custom dataset', images.shape,
               render_poses.shape, hwf, args.datadir)
 
         i_train, i_test, i_val = i_split
 
-        hemi_R = np.mean(np.linalg.norm(poses[:, :3, -1], axis=-1))
-        near = hemi_R-1.
-        far = hemi_R+1.
+        near = 2.
+        far = 6.
+        print('NEAR, FAR',near,far)
 
         if args.white_bkgd:
             images = images[..., :3]*images[..., -1:] + (1.-images[..., -1:])

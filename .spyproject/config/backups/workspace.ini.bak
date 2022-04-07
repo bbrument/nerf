@@ -6,5 +6,5 @@ save_non_project_files = False
 
 [main]
 version = 0.2.0
-recent_files = ['run_nerf.py', 'load_matfile.py', 'load_llff.py', 'test.py', 'load_deepvoxels.py', 'config_custom.txt']
+recent_files = ['run_nerf.py', 'load_matfile.py', 'load_deepvoxels.py', 'config_custom.txt']
 
