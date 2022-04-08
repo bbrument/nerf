@@ -627,6 +627,7 @@ def train():
             images = images[..., :3]*images[..., -1:] + (1.-images[..., -1:])
         else:
             images = images[..., :3]
+        
 
     elif args.dataset_type == 'deepvoxels':
 
@@ -659,6 +660,8 @@ def train():
             images = images[..., :3]*images[..., -1:] + (1.-images[..., -1:])
         else:
             images = images[..., :3]
+        # print(images.shape)
+        # print(images)
 
     else:
         print('Unknown dataset type', args.dataset_type, 'exiting')
