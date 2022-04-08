@@ -4,7 +4,7 @@ import scipy.io as sio
 import imageio
 import math
 
-basedir = 'data/data_Box_table2/'
+basedir = 'data/pepper_gauss/'
 
 mat_contents = sio.loadmat(os.path.join(basedir, 'data.mat'))
 poses = mat_contents['poses']
